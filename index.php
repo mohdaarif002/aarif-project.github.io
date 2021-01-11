@@ -1,0 +1,69 @@
+<?php
+$insert = false;
+if(isset($_POST['name'])){
+    // Set connection variables
+    $server = "localhost";
+    $username = "root";
+    $password = "";
+
+    // Create a database connection
+    $con = mysqli_connect($server, $username, $password);
+
+    // Check for connection success
+    if(!$con){
+        die("connection to this database failed due to" . mysqli_connect_error());
+    }
+
+  // Collect post variables
+  $name = $_POST['name'];
+  $textArea = $_POST['textArea'];
+  // $sql = "INSERT INTO `dtuTr`.`trip` (`name`, `age`, `gender`, `email`, `phone`, `other`, `dt`) VALUES ('$name', '$age', '$gender', '$email', '$phone', '$desc', current_timestamp());";
+
+  $sql="INSERT INTO `webprojects`.`dtutrip` ( `name`, `textArea`) VALUES ( '$name', '$textArea');";
+//   echo $sql;
+  if($con->query($sql) == true){
+    // echo "Successfully inserted";
+
+    // Flag for successful insertion
+    $insert = true;
+} else{
+    echo $con->error;
+}
+
+
+    // Close the database connection
+    $con->close();
+}
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to Travel Form</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto|Sriracha&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <img class="bg" src="bg.jpeg" alt="DTU college">
+    <div class="container">
+        <h1>Welcome to DTU US Trip form</h3>
+        <p>Enter your details and submit this form to confirm your participation in the trip </p>
+        <?php
+        if($insert == true){
+        echo "<p class='submitMsg'>Thanks for submitting your form. We are happy to see you joining us for the US trip</p>";
+        }
+    ?>
+        <form action="index.php" method="post">
+            <input type="text" name="name" id="name" placeholder="Enter your name">
+            <textarea name="textArea" id="textArea" cols="30" rows="10" placeholder="Enter any other information here"></textarea>
+            <button class="btn">Submit</button> 
+        </form>
+    </div>
+    <!-- <script src="index.js"></script> -->
+    
+</body>
+</html>
